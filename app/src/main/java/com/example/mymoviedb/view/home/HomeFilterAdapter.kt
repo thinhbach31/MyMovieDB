@@ -28,3 +28,7 @@ class HomeFilterAdapter(private val filters: ArrayList<HomeFilter>) :
         }
     }
 }
+
+interface HomeFilterClickListener{
+    fun onFilterItemCLick(id: Int)
+}

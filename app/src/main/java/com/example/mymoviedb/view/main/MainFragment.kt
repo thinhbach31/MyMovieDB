@@ -25,6 +25,7 @@ class MainFragment() : BaseFragment<FragmentMainBinding>(FragmentMainBinding::in
                     tab.icon = context?.let { AppCompatResources.getDrawable(it, this[pos]) }
                 }
             }.attach()
+            pager.isUserInputEnabled = false
         }
     }
 
