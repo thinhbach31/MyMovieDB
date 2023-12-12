@@ -2,4 +2,5 @@
     <string name="app_name">My MovieDB</string>
     <string name="title_trending_movie">Trending Movie</string>
     <string name="title_trending_tv_series">Trending TV Series</string>
+    <string name="title_hello_mang">Hello Mang</string>
 </resources>
