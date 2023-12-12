@@ -10,7 +10,8 @@ import com.example.mymoviedb.view.trending.TrendingAllFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomeFragment(): BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate), HomeFilterClickListener {
+class HomeFragment() : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate),
+    HomeFilterClickListener {
     private lateinit var filterAdapter: HomeFilterAdapter
     private val viewModel: HomeViewModel by viewModels()
 
@@ -23,24 +24,29 @@ class HomeFragment(): BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inf
     }
 
     override fun initUIComponents() {
-        filterAdapter = HomeFilterAdapter(initFilters())
+        filterAdapter = HomeFilterAdapter(initFilters(), this)
         binding.recyclerFilterHome.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = filterAdapter
             setHasFixedSize(true)
+//            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.HORIZONTAL))
         }
 
         addFragment(binding.containerHome.id, TrendingAllFragment())
     }
 
     override fun onFilterItemCLick(id: Int) {
-        when(id) {
+        filterAdapter.updateFilterSelectedStatus(id)
+        filterAdapter.notifyDataSetChanged()
+        when (id) {
             0 -> {
-                replaceFragment(binding.containerHome.id, TrendingAllFragment())
+//                replaceFragment(binding.containerHome.id, TrendingAllFragment())
             }
+
             1 -> {
 
             }
+
             2 -> {
 
             }
@@ -48,7 +54,7 @@ class HomeFragment(): BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inf
     }
 
     private fun initFilters(): ArrayList<HomeFilter> = ArrayList<HomeFilter>().apply {
-        add(HomeFilter(0, "clear", R.drawable.ic_clear, false))
+        add(HomeFilter(0, "clear", R.drawable.ic_clear, true))
         add(HomeFilter(1, "Movies", null, false))
         add(HomeFilter(2, "TV Shows", null, false))
     }

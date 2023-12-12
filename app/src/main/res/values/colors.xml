@@ -14,4 +14,5 @@
     <color name="header_transparent">#2DBCBBBB</color>
     <color name="transparent">#00FFFFFF</color>
     <color name="color_grey">#B1AFAF</color>
+    <color name="color_grey_home_filter">#707070</color>
 </resources>

@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:background="@color/header_transparent"
         android:orientation="vertical"
-        android:padding="@dimen/dp_15"
+        android:padding="@dimen/dp_10"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -19,7 +19,7 @@
             android:id="@+id/title_home_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="hello"
+            android:text="@string/title_hello_mang"
             android:textColor="@color/white"
             android:textSize="@dimen/sp_25"
             app:layout_constraintStart_toStartOf="parent"
