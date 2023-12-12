@@ -1,28 +1,25 @@
 package com.example.mymoviedb.view.home
 
-import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mymoviedb.R
 import com.example.mymoviedb.base.BaseFragment
 import com.example.mymoviedb.databinding.FragmentHomeBinding
 import com.example.mymoviedb.model.HomeFilter
+import com.example.mymoviedb.view.trending.TrendingAllFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomeFragment(): BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
+class HomeFragment(): BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate), HomeFilterClickListener {
     private lateinit var filterAdapter: HomeFilterAdapter
     private val viewModel: HomeViewModel by viewModels()
 
     override fun observeData() {
-        viewModel.observeMovieLiveData().observe(this, Observer { movieList ->
-            Toast.makeText(context, "success", Toast.LENGTH_SHORT).show()
-        })
+
     }
 
     override fun requestData() {
-        viewModel.getTrendingAll()
+
     }
 
     override fun initUIComponents() {
@@ -31,6 +28,22 @@ class HomeFragment(): BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inf
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = filterAdapter
             setHasFixedSize(true)
+        }
+
+        addFragment(binding.containerHome.id, TrendingAllFragment())
+    }
+
+    override fun onFilterItemCLick(id: Int) {
+        when(id) {
+            0 -> {
+                replaceFragment(binding.containerHome.id, TrendingAllFragment())
+            }
+            1 -> {
+
+            }
+            2 -> {
+
+            }
         }
     }
 

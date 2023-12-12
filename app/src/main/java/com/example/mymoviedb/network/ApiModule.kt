@@ -23,7 +23,6 @@ object ApiModule {
     @Provides
     fun providesHttpLoggingInterceptor() = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
-
     }
 
     @Singleton
@@ -45,7 +44,6 @@ object ApiModule {
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
         .baseUrl(BASE_URL)
-
         .client(okHttpClient)
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .build()
@@ -57,5 +55,4 @@ object ApiModule {
     @Singleton
     @Provides
     fun providesRepository(apiService: MovieDBApi) = HomeRepository(apiService)
-
 }

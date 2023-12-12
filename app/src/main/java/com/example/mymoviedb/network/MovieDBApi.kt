@@ -8,4 +8,10 @@ interface MovieDBApi {
 
     @GET("trending/all/day")
     fun getTrendingAll(): Observable<FilmModel>
+
+    @GET("trending/movie/day")
+    fun getTrendingMovies(): Observable<FilmModel>
+
+    @GET("trending/tv/day")
+    fun getTrendingTVSeries(): Observable<FilmModel>
 }

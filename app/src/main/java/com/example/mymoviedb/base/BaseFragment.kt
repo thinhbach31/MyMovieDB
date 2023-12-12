@@ -37,4 +37,23 @@ abstract class BaseFragment<VB : ViewBinding>(private val inflate: Inflate<VB>) 
         super.onDestroyView()
         _binding = null
     }
+
+    fun addFragment(container: Int, fragment: Fragment?) {
+        fragment?.let {
+            childFragmentManager.beginTransaction().apply {
+                add(container, it)
+                commit()
+            }
+        }
+    }
+
+    fun replaceFragment(container: Int, fragment: Fragment?) {
+        fragment?.let {
+            childFragmentManager.beginTransaction().apply {
+                replace(container, it)
+                addToBackStack(null)
+                commit()
+            }
+        }
+    }
 }

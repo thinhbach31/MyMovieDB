@@ -13,4 +13,5 @@
     <color name="background_grey">#BCBBBB</color>
     <color name="header_transparent">#2DBCBBBB</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="color_grey">#B1AFAF</color>
 </resources>
