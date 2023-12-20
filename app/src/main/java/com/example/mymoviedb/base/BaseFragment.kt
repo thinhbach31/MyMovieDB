@@ -47,10 +47,10 @@ abstract class BaseFragment<VB : ViewBinding>(private val inflate: Inflate<VB>) 
         }
     }
 
-    fun replaceFragment(container: Int, fragment: Fragment?) {
-        fragment?.let {
+    fun replaceFragment(container: Int, fragment: Fragment) {
+        if (!childFragmentManager.popBackStackImmediate(fragment.javaClass.name, 0)) {
             childFragmentManager.beginTransaction().apply {
-                replace(container, it)
+                replace(container, fragment)
                 addToBackStack(null)
                 commit()
             }
