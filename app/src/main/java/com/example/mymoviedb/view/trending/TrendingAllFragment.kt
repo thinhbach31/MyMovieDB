@@ -3,13 +3,15 @@ package com.example.mymoviedb.view.trending
 import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.PagerSnapHelper
 import com.example.mymoviedb.base.BaseFragment
 import com.example.mymoviedb.databinding.FragmentTrendingBinding
+import com.example.mymoviedb.model.ListFilmWithTitle
 import com.example.mymoviedb.model.Result
-import com.example.mymoviedb.view.home.BasicFilmAdapter
+import com.example.mymoviedb.utils.Const
+import com.example.mymoviedb.utils.Functions.setupCarousel
 import com.example.mymoviedb.view.home.HomeViewModel
-import com.example.mymoviedb.view.home.OnBasicItemListener
+import com.example.mymoviedb.view.home.ListFilmWithTitleAdapter
+import com.example.mymoviedb.view.home.OnListFilmWithTitleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,8 +19,7 @@ class TrendingAllFragment :
     BaseFragment<FragmentTrendingBinding>(FragmentTrendingBinding::inflate) {
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var highlightAdapter: TrendingHighlightAdapter
-    private lateinit var trendingMovieAdapter: BasicFilmAdapter
-    private lateinit var trendingTVAdapter: BasicFilmAdapter
+    private lateinit var trendingAdapter: ListFilmWithTitleAdapter
 
     override fun observeData() {
         viewModel.apply {
@@ -28,13 +29,13 @@ class TrendingAllFragment :
             }
 
             trendingMoviesLiveData.observe(this@TrendingAllFragment) { movieList ->
-                trendingMovieAdapter.updateData(movieList)
-                trendingMovieAdapter.notifyDataSetChanged()
+                trendingAdapter.addItem(ListFilmWithTitle(Const.TRENDING_MOVIE, movieList))
+                trendingAdapter.notifyDataSetChanged()
             }
 
             trendingTVSeriesLiveData.observe(this@TrendingAllFragment) { movieList ->
-                trendingTVAdapter.updateData(movieList)
-                trendingTVAdapter.notifyDataSetChanged()
+                trendingAdapter.addItem(ListFilmWithTitle(Const.TRENDING_TV, movieList))
+                trendingAdapter.notifyDataSetChanged()
             }
         }
     }
@@ -58,38 +59,25 @@ class TrendingAllFragment :
                     )
                 }
             })
-        binding.recyclerTrendingHighlight.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = highlightAdapter
-            setHasFixedSize(true)
-            PagerSnapHelper().attachToRecyclerView(this)
-        }
 
-        trendingMovieAdapter = BasicFilmAdapter(ArrayList(), object : OnBasicItemListener {
-            override fun onBasicItemClick(result: Result) {
-                Log.d(
-                    "detail",
-                    "go to detail of " + result.mediaType + " named: " + result.title
-                )
-            }
-        })
-        binding.recyclerTrendingMovie.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = trendingMovieAdapter
-            setHasFixedSize(true)
-        }
+        context?.let { binding.carouselTrending.setupCarousel(it, highlightAdapter) }
 
-        trendingTVAdapter = BasicFilmAdapter(ArrayList(), object : OnBasicItemListener {
-            override fun onBasicItemClick(result: Result) {
-                Log.d(
-                    "detail",
-                    "go to detail of " + result.mediaType + " named: " + result.title
-                )
-            }
-        })
-        binding.recyclerTrendingTv.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = trendingTVAdapter
+        trendingAdapter =
+            ListFilmWithTitleAdapter(ArrayList(), object : OnListFilmWithTitleClickListener {
+                override fun onTitleClickListener(title: String) {
+                    Log.d("detail", "go to list $title")
+                }
+
+                override fun onFilmItemClickListener(result: Result) {
+                    Log.d(
+                        "detail",
+                        "go to detail of " + result.mediaType + " named: " + result.title
+                    )
+                }
+            })
+        binding.recyclerTrending.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            adapter = trendingAdapter
             setHasFixedSize(true)
         }
     }
