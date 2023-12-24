@@ -51,7 +51,7 @@ abstract class BaseFragment<VB : ViewBinding>(private val inflate: Inflate<VB>) 
         if (!childFragmentManager.popBackStackImmediate(fragment.javaClass.name, 0)) {
             childFragmentManager.beginTransaction().apply {
                 replace(container, fragment)
-                addToBackStack(null)
+                addToBackStack(fragment.javaClass.name)
                 commit()
             }
         }

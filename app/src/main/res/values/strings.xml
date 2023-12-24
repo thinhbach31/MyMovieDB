@@ -1,6 +1,15 @@
 <resources>
     <string name="app_name">My MovieDB</string>
+    <string name="title_trending_all">Trending</string>
     <string name="title_trending_movie">Trending Movie</string>
     <string name="title_trending_tv_series">Trending TV Series</string>
     <string name="title_hello_mang">Hello Mang</string>
+    <string name="title_movie_now_playing">Now Playing</string>
+    <string name="title_movie_popular">Popular</string>
+    <string name="title_movie_top_rated">Top Rated</string>
+    <string name="title_movie_upcoming">Upcoming</string>
+    <string name="title_tv_airing">Airing Today</string>
+    <string name="title_tv_on_the_air">On The Air</string>
+    <string name="title_tv_popular">Popular</string>
+    <string name="title_tv_top_rated">Top Rated</string>
 </resources>

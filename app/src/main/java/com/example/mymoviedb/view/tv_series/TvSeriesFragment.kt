@@ -1,13 +1,12 @@
 package com.example.mymoviedb.view.tv_series
 
 import android.util.Log
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mymoviedb.base.BaseFragment
 import com.example.mymoviedb.databinding.FragmentTvSeriesBinding
 import com.example.mymoviedb.model.ListFilmWithTitle
 import com.example.mymoviedb.model.Result
-import com.example.mymoviedb.utils.Const
 import com.example.mymoviedb.view.home.HomeViewModel
 import com.example.mymoviedb.view.home.ListFilmWithTitleAdapter
 import com.example.mymoviedb.view.home.OnListFilmWithTitleClickListener
@@ -15,41 +14,34 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class TvSeriesFragment: BaseFragment<FragmentTvSeriesBinding>(FragmentTvSeriesBinding::inflate) {
-    private val viewModel: HomeViewModel by viewModels()
+    private val viewModel: HomeViewModel by activityViewModels()
     private lateinit var tvAdapter: ListFilmWithTitleAdapter
 
     override fun observeData() {
         viewModel.apply {
             airingTodayTVSeriesLiveData.observe(this@TvSeriesFragment) { movieList ->
-                tvAdapter.addItem(ListFilmWithTitle(Const.AIRING_TV, movieList))
+                tvAdapter.addItem(ListFilmWithTitle(movieList.title, movieList.results))
                 tvAdapter.notifyDataSetChanged()
             }
 
             onTheAirTVSeriesLiveData.observe(this@TvSeriesFragment) { movieList ->
-                tvAdapter.addItem(ListFilmWithTitle(Const.ON_THE_AIR_TV, movieList))
+                tvAdapter.addItem(ListFilmWithTitle(movieList.title, movieList.results))
                 tvAdapter.notifyDataSetChanged()
             }
 
             popularTVSeriesLiveData.observe(this@TvSeriesFragment) { movieList ->
-                tvAdapter.addItem(ListFilmWithTitle(Const.POPULAR_TV, movieList))
+                tvAdapter.addItem(ListFilmWithTitle(movieList.title, movieList.results))
                 tvAdapter.notifyDataSetChanged()
             }
 
             topRatedTVSeriesLiveData.observe(this@TvSeriesFragment) { movieList ->
-                tvAdapter.addItem(ListFilmWithTitle(Const.TOP_RATED_TV, movieList))
+                tvAdapter.addItem(ListFilmWithTitle(movieList.title, movieList.results))
                 tvAdapter.notifyDataSetChanged()
             }
         }
     }
 
-    override fun requestData() {
-        viewModel.apply {
-            getAiringTodayTVSeries()
-            getOnTheAirTVSeries()
-            getPopularTVSeries()
-            getTopRatedTVSeries()
-        }
-    }
+    override fun requestData() {}
 
     override fun initUIComponents() {
 
