@@ -1,10 +1,16 @@
-package com.example.mymoviedb.network
+package com.example.mymoviedb.di
 
+import android.content.Context
+import android.content.SharedPreferences
 import com.example.mymoviedb.BuildConfig
-import com.example.mymoviedb.repository.HomeRepository
+import com.example.mymoviedb.repository.FilmRemoteDataSource
+import com.example.mymoviedb.network.MovieDBApi
+import com.example.mymoviedb.repository.FilmRepository
+import com.example.mymoviedb.utils.Const
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -16,7 +22,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object ApiModule {
+object AppModule {
     private const val BASE_URL = "https://api.themoviedb.org/3/"
 
     @Singleton
@@ -54,5 +60,31 @@ object ApiModule {
 
     @Singleton
     @Provides
-    fun providesRepository(apiService: MovieDBApi) = HomeRepository(apiService)
+    fun provideRemoteDataSource(movieDBApi: MovieDBApi): FilmRemoteDataSource =
+        FilmRemoteDataSource(movieDBApi)
+
+//    @Singleton
+//    @Provides
+//    fun provideDatabase(@ApplicationContext appContext: Context) =
+//        Room.databaseBuilder(
+//            applicationContext,
+//            AppDatabase::class.java, "database-name"
+//        ).build()
+//
+//    @Singleton
+//    @Provides
+//    fun provideCountryDao(db: AppDatabase) = db.countryDao()
+
+    @Singleton
+    @Provides
+    fun provideHomePreference(@ApplicationContext context: Context): SharedPreferences {
+        return context.getSharedPreferences(Const.HOME_PREF, Context.MODE_PRIVATE)
+    }
+
+    @Singleton
+    @Provides
+    fun providesRepository(
+        filmRemoteDataSource: FilmRemoteDataSource,
+        homePreferences: SharedPreferences
+    ) = FilmRepository(filmRemoteDataSource, homePreferences)
 }
