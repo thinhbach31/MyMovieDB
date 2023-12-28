@@ -72,6 +72,7 @@ class TrendingAllFragment :
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = trendingAdapter
             setHasFixedSize(true)
+            isNestedScrollingEnabled = false
         }
     }
 }

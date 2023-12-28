@@ -17,4 +17,12 @@ object Const {
     const val POPULAR_MOVIE = "PopularMovie"
     const val TOP_RATED_MOVIE = "TopRatedMovie"
     const val UPCOMING_MOVIE = "UpcomingMovie"
+
+    val colors = listOf(
+        "FFEBEE", "FFCDD2", "EF9A9A", "E57373", "EF5350", "F44336", "E53935",
+        "303F9F", "283593", "1A237E", "8C9EFF", "536DFE", "3D5AFE", "304FFE",
+        "E0F7FA", "B2EBF2", "80DEEA", "4DD0E1", "26C6DA", "00BCD4", "00ACC1",
+        "F1F8E9", "DCEDC8", "C5E1A5", "AED581", "9CCC65", "8BC34A", "7CB342",
+        "FFF3E0", "FFE0B2", "FFCC80", "FFB74D", "FFA726", "FF9800", "FB8C00",
+    )
 }
