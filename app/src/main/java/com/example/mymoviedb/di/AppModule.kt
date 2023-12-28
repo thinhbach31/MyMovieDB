@@ -3,8 +3,10 @@ package com.example.mymoviedb.di
 import android.content.Context
 import android.content.SharedPreferences
 import com.example.mymoviedb.BuildConfig
+import com.example.mymoviedb.network.GenreApi
 import com.example.mymoviedb.repository.FilmRemoteDataSource
 import com.example.mymoviedb.network.MovieDBApi
+import com.example.mymoviedb.repository.ExploreRepository
 import com.example.mymoviedb.repository.FilmRepository
 import com.example.mymoviedb.utils.Const
 import dagger.Module
@@ -60,6 +62,10 @@ object AppModule {
 
     @Singleton
     @Provides
+    fun provideGenreApiService(retrofit: Retrofit): GenreApi = retrofit.create(GenreApi::class.java)
+
+    @Singleton
+    @Provides
     fun provideRemoteDataSource(movieDBApi: MovieDBApi): FilmRemoteDataSource =
         FilmRemoteDataSource(movieDBApi)
 
@@ -83,8 +89,11 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun providesRepository(
-        filmRemoteDataSource: FilmRemoteDataSource,
-        homePreferences: SharedPreferences
+    fun providesHomeRepository(
+        filmRemoteDataSource: FilmRemoteDataSource, homePreferences: SharedPreferences,
     ) = FilmRepository(filmRemoteDataSource, homePreferences)
+
+    @Singleton
+    @Provides
+    fun provideExploreRepository(api: GenreApi) = ExploreRepository(api)
 }
