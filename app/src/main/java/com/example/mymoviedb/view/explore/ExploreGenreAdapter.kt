@@ -6,13 +6,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mymoviedb.databinding.ItemExploreGenreBinding
-import com.example.mymoviedb.model.GenreRemoteModel
+import com.example.mymoviedb.model.GenreLocalModel
 import com.example.mymoviedb.utils.Const
 import kotlin.random.Random
 
 
 class ExploreGenreAdapter(
-    private val genres: ArrayList<GenreRemoteModel>,
+    private val genres: ArrayList<GenreLocalModel>,
     private val listener: ExploreGenreClickListener,
 ) :
     RecyclerView.Adapter<ExploreGenreAdapter.ViewHolder>() {
@@ -43,7 +43,7 @@ class ExploreGenreAdapter(
         }
     }
 
-    fun updateData(list: ArrayList<GenreRemoteModel>) {
+    fun updateData(list: ArrayList<GenreLocalModel>) {
         genres.apply {
             clear()
             addAll(list)

@@ -2,13 +2,18 @@ package com.example.mymoviedb.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.net.ConnectivityManager
+import androidx.room.Room
 import com.example.mymoviedb.BuildConfig
+import com.example.mymoviedb.data_sources.GenreDatabase
+import com.example.mymoviedb.data_sources.GenresDAO
 import com.example.mymoviedb.network.GenreApi
 import com.example.mymoviedb.repository.FilmRemoteDataSource
 import com.example.mymoviedb.network.MovieDBApi
 import com.example.mymoviedb.repository.ExploreRepository
 import com.example.mymoviedb.repository.FilmRepository
 import com.example.mymoviedb.utils.Const
+import com.example.mymoviedb.utils.ListGenreRemoteMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -95,5 +100,23 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideExploreRepository(api: GenreApi) = ExploreRepository(api)
+    fun provideGenreDatabase(@ApplicationContext appContext: Context) =
+        Room.databaseBuilder(
+            appContext,
+            GenreDatabase::class.java, "Genres Database"
+        ).fallbackToDestructiveMigration().build()
+
+    @Singleton
+    @Provides
+    fun provideGenreDao(db: GenreDatabase) = db.genresDao()
+
+    @Singleton
+    @Provides
+    fun provideExploreRepository(
+        api: GenreApi, localDataSource: GenresDAO, mapper: ListGenreRemoteMapper,
+    ) = ExploreRepository(api, localDataSource, mapper)
+
+    @Singleton
+    @Provides
+    fun provideListGenreMapper() = ListGenreRemoteMapper()
 }

@@ -3,52 +3,53 @@ package com.example.mymoviedb.view.explore
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.example.mymoviedb.model.GenreRemoteModel
+import androidx.lifecycle.viewModelScope
+import com.example.mymoviedb.base.BaseViewModel
+import com.example.mymoviedb.model.ListGenreLocalModel
 import com.example.mymoviedb.repository.ExploreRepository
-import com.example.mymoviedb.utils.Const
+import com.example.mymoviedb.utils.DataResult
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ExploreViewModel @Inject constructor(private val repository: ExploreRepository) :
-    ViewModel() {
+    BaseViewModel() {
+    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        onError("Exception handled: ${throwable.localizedMessage}")
+    }
+    val errorMessage = MutableLiveData<String>()
 
-    private val _movieGenresLiveData = MutableLiveData<ArrayList<GenreRemoteModel>>()
-    val movieGenresLiveData: LiveData<ArrayList<GenreRemoteModel>> = _movieGenresLiveData
+    private val _movieGenresLiveData = MutableLiveData<DataResult<ListGenreLocalModel>>()
+    val movieGenresLiveData: LiveData<DataResult<ListGenreLocalModel>> = _movieGenresLiveData
 
-    private val _tvGenresLiveData = MutableLiveData<ArrayList<GenreRemoteModel>>()
-    val tvGenresLiveData: LiveData<ArrayList<GenreRemoteModel>> = _tvGenresLiveData
+    private val _tvGenresLiveData = MutableLiveData<DataResult<ListGenreLocalModel>>()
+    val tvGenresLiveData: LiveData<DataResult<ListGenreLocalModel>> = _tvGenresLiveData
 
     fun getMovieGenres() {
-        repository.run {
-            getMovieGenres().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
-                .subscribe(
-                    {
-                        if (it?.genres != null) {
-                            _movieGenresLiveData.value = it.genres!!
-                        }
-                    }, {
-                        Log.e(Const.ERROR_TAG, it.message.toString())
-                    }
-                )
+        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+            showProgressBar()
+            Log.d("Status genre vm", "movie call")
+            val result = repository.getMovieGenres()
+            _movieGenresLiveData.postValue(result)
+            hideProgressBar()
         }
     }
 
     fun getTVGenres() {
-        repository.run {
-            getTVGenres().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
-                .subscribe(
-                    {
-                        if (it?.genres != null) {
-                            _tvGenresLiveData.value = it.genres!!
-                        }
-                    }, {
-                        Log.e(Const.ERROR_TAG, it.message.toString())
-                    }
-                )
+        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+            showProgressBar()
+            Log.d("Status genre vm", "tv call")
+            val result = repository.getTVGenres()
+            _tvGenresLiveData.postValue(result)
+            hideProgressBar()
         }
+    }
+
+    private fun onError(message: String) {
+        errorMessage.value = message
+        loading.value = false
     }
 }
