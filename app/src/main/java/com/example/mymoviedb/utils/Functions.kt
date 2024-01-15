@@ -44,4 +44,9 @@ object Functions {
         )
         addItemDecoration(itemDecoration)
     }
+
+    fun <E> ArrayList<E>?.orEmpty(): ArrayList<E> {
+        if (this == null) return arrayListOf()
+        return this
+    }
 }

@@ -18,6 +18,9 @@ object Const {
     const val TOP_RATED_MOVIE = "TopRatedMovie"
     const val UPCOMING_MOVIE = "UpcomingMovie"
 
+    const val MOVIE_GENRE = "MOVIE_GENRE"
+    const val TV_GENRE = "TV_GENRE"
+
     val colors = listOf(
         "FFEBEE", "FFCDD2", "EF9A9A", "E57373", "EF5350", "F44336", "E53935",
         "303F9F", "283593", "1A237E", "8C9EFF", "536DFE", "3D5AFE", "304FFE",
