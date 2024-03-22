@@ -3,6 +3,7 @@ package com.example.mymoviedb.view.tv_series
 import android.util.Log
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.mymoviedb.R
 import com.example.mymoviedb.base.BaseFragment
 import com.example.mymoviedb.databinding.FragmentTvSeriesBinding
 import com.example.mymoviedb.model.ListFilmWithTitle
@@ -10,6 +11,8 @@ import com.example.mymoviedb.model.Result
 import com.example.mymoviedb.view.home.HomeViewModel
 import com.example.mymoviedb.view.home.ListFilmWithTitleAdapter
 import com.example.mymoviedb.view.home.OnListFilmWithTitleClickListener
+import com.example.mymoviedb.view.list_detail.ListDetailFragment
+import com.example.mymoviedb.view.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -48,7 +51,10 @@ class TvSeriesFragment: BaseFragment<FragmentTvSeriesBinding>(FragmentTvSeriesBi
         tvAdapter =
             ListFilmWithTitleAdapter(ArrayList(), object : OnListFilmWithTitleClickListener {
                 override fun onTitleClickListener(title: String) {
-                    Log.d("detail", "go to list $title")
+                    (activity as MainActivity).addFragment(
+                        R.id.container_main_fragment,
+                        ListDetailFragment.newInstance(title)
+                    )
                 }
 
                 override fun onFilmItemClickListener(result: Result) {
