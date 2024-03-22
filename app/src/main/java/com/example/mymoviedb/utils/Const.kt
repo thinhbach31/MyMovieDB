@@ -6,26 +6,36 @@ object Const {
     const val ERROR_TAG = "error tag"
     const val HOME_PREF = "home_preferences"
 
-    const val TRENDING_ALL = "TrendingAll"
-    const val TRENDING_MOVIE = "TrendingMovie"
-    const val TRENDING_TV = "TrendingTVSeries"
-    const val AIRING_TV = "AiringToday"
-    const val ON_THE_AIR_TV = "OnTheAir"
-    const val POPULAR_TV = "PopularTV"
-    const val TOP_RATED_TV = "TopRatedTV"
-    const val NOW_PLAYING_MOVIE = "NowPlayingMovie"
-    const val POPULAR_MOVIE = "PopularMovie"
-    const val TOP_RATED_MOVIE = "TopRatedMovie"
-    const val UPCOMING_MOVIE = "UpcomingMovie"
+    const val TRENDING_ALL = "Trending All"
+    const val TRENDING_MOVIE = "Trending Movie"
+    const val TRENDING_TV = "Trending TV Series"
+    const val AIRING_TV = "Airing Today"
+    const val ON_THE_AIR_TV = "On The Air"
+    const val POPULAR_TV = "Popular TV"
+    const val TOP_RATED_TV = "TopRated TV"
+    const val NOW_PLAYING_MOVIE = "Now Playing Movie"
+    const val POPULAR_MOVIE = "Popular Movie"
+    const val TOP_RATED_MOVIE = "TopRated Movie"
+    const val UPCOMING_MOVIE = "Upcoming Movie"
 
     const val MOVIE_GENRE = "MOVIE_GENRE"
     const val TV_GENRE = "TV_GENRE"
+    const val IS_MOVIE_GENRE = "isMovieGenre"
+    const val GENRE_ID = "genre id"
+    const val GENRE_NAME = "genre name"
+    const val LIST_DETAIL_TAG_TITLE = "listDetailTagTitle"
+
+    const val HOME_FILTER_TV = "TV Series"
+    const val HOME_FILTER_MOVIE = "Movies"
+    const val HOME_FILTER_ALL = "All"
+
+    const val DEFAULT_RESULT_PAGE = 1
 
     val colors = listOf(
-        "FFEBEE", "FFCDD2", "EF9A9A", "E57373", "EF5350", "F44336", "E53935",
-        "303F9F", "283593", "1A237E", "8C9EFF", "536DFE", "3D5AFE", "304FFE",
-        "E0F7FA", "B2EBF2", "80DEEA", "4DD0E1", "26C6DA", "00BCD4", "00ACC1",
-        "F1F8E9", "DCEDC8", "C5E1A5", "AED581", "9CCC65", "8BC34A", "7CB342",
-        "FFF3E0", "FFE0B2", "FFCC80", "FFB74D", "FFA726", "FF9800", "FB8C00",
+        "EF9A9A", "E57373", "EF5350", "F44336", "E53935",
+        "303F9F", "283593", "1A237E", "536DFE", "3D5AFE", "304FFE",
+        "4DD0E1", "26C6DA", "00BCD4", "00ACC1",
+        "C5E1A5", "AED581", "9CCC65", "8BC34A", "7CB342",
+        "FFE0B2", "FFCC80", "FFB74D", "FFA726", "FF9800", "FB8C00",
     )
 }

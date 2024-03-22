@@ -35,7 +35,7 @@ class HomeFilterAdapter(
         with(holder) {
             filters[position].let { filter ->
                 binding.root.setOnClickListener {
-                    listener.onFilterItemCLick(filter.id)
+                    if (!filter.isSelected) listener.onFilterItemCLick(filter.id)
                 }
 
                 if (filter.id == 0) {

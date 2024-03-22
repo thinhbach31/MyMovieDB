@@ -28,15 +28,17 @@ class ExploreGenreAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
-            genres[position].let {
+            genres[position].let { genre ->
                 binding.textGenreItem.apply {
-                    text = it.name
+                    text = genre.name
                     val newBG = background as GradientDrawable
                     background = newBG.apply {
-                        setColor(Color.parseColor("#" + Const.colors[Random.nextInt(35)]))
+                        Const.colors.let {
+                            setColor(Color.parseColor("#" + it[Random.nextInt(it.size - 1)]))
+                        }
                     }
                     setOnClickListener {
-                        listener.onItemGenreClick(it.id)
+                        listener.onItemGenreClick(genre)
                     }
                 }
             }
@@ -52,5 +54,5 @@ class ExploreGenreAdapter(
 }
 
 interface ExploreGenreClickListener {
-    fun onItemGenreClick(id: Int)
+    fun onItemGenreClick(genre: GenreLocalModel)
 }

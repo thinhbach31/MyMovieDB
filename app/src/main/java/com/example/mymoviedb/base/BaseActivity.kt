@@ -9,6 +9,7 @@ open class BaseActivity : AppCompatActivity() {
         fragment?.let {
             supportFragmentManager.beginTransaction().apply {
                 add(container, it)
+                addToBackStack(fragment::class.java.name)
                 commit()
             }
         }

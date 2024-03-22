@@ -2,16 +2,17 @@ package com.example.mymoviedb.di
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.net.ConnectivityManager
 import androidx.room.Room
 import com.example.mymoviedb.BuildConfig
 import com.example.mymoviedb.data_sources.GenreDatabase
 import com.example.mymoviedb.data_sources.GenresDAO
 import com.example.mymoviedb.network.GenreApi
+import com.example.mymoviedb.network.ListDetailApi
 import com.example.mymoviedb.repository.FilmRemoteDataSource
 import com.example.mymoviedb.network.MovieDBApi
 import com.example.mymoviedb.repository.ExploreRepository
 import com.example.mymoviedb.repository.FilmRepository
+import com.example.mymoviedb.repository.ListDetailRepository
 import com.example.mymoviedb.utils.Const
 import com.example.mymoviedb.utils.ListGenreRemoteMapper
 import dagger.Module
@@ -119,4 +120,14 @@ object AppModule {
     @Singleton
     @Provides
     fun provideListGenreMapper() = ListGenreRemoteMapper()
+
+    @Singleton
+    @Provides
+    fun provideListDetailApiService(retrofit: Retrofit): ListDetailApi =
+        retrofit.create(ListDetailApi::class.java)
+
+    @Singleton
+    @Provides
+    fun provideListDetailRepository(api: ListDetailApi) = ListDetailRepository(api)
+
 }

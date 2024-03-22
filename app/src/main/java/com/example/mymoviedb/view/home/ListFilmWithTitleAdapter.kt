@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mymoviedb.databinding.ItemListFilmWithTitleBinding
 import com.example.mymoviedb.model.ListFilmWithTitle
 import com.example.mymoviedb.model.Result
+import com.example.mymoviedb.utils.Functions.getNameByTitle
 
 class ListFilmWithTitleAdapter(
     private var films: ArrayList<ListFilmWithTitle>,
@@ -30,10 +31,11 @@ class ListFilmWithTitleAdapter(
         with(holder) {
             films[position].let { film ->
                 binding.textTitleListFilm.apply {
-                    text = film.title
-                    setOnClickListener {
-                        listener.onTitleClickListener(film.title)
-                    }
+                    text = film.title.getNameByTitle(this.context)
+//                    paintFlags = paintFlags or Paint.UNDERLINE_TEXT_FLAG
+                }
+                binding.layoutTitleFilm.setOnClickListener {
+                    listener.onTitleClickListener(film.title)
                 }
                 binding.recyclerListFilm.apply {
                     layoutManager =

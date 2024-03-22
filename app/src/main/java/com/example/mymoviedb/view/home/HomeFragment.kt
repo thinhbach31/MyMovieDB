@@ -2,10 +2,10 @@ package com.example.mymoviedb.view.home
 
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.mymoviedb.R
 import com.example.mymoviedb.base.BaseFragment
 import com.example.mymoviedb.databinding.FragmentHomeBinding
 import com.example.mymoviedb.model.HomeFilter
+import com.example.mymoviedb.utils.Const
 import com.example.mymoviedb.view.movie.MovieFragment
 import com.example.mymoviedb.view.trending.TrendingAllFragment
 import com.example.mymoviedb.view.tv_series.TvSeriesFragment
@@ -23,21 +23,21 @@ class HomeFragment() : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::in
 
     override fun requestData() {
         viewModel.getTrendingData(
-            resources.getString(R.string.title_trending_all),
-            resources.getString(R.string.title_trending_movie),
-            resources.getString(R.string.title_trending_tv_series)
+            Const.TRENDING_ALL,
+            Const.TRENDING_MOVIE,
+            Const.TRENDING_TV
         )
         viewModel.getMovieData(
-            resources.getString(R.string.title_movie_now_playing),
-            resources.getString(R.string.title_movie_popular),
-            resources.getString(R.string.title_movie_top_rated),
-            resources.getString(R.string.title_movie_upcoming)
+            Const.NOW_PLAYING_MOVIE,
+            Const.POPULAR_MOVIE,
+            Const.TOP_RATED_MOVIE,
+            Const.UPCOMING_MOVIE,
         )
         viewModel.getTVData(
-            resources.getString(R.string.title_tv_airing),
-            resources.getString(R.string.title_tv_on_the_air),
-            resources.getString(R.string.title_tv_popular),
-            resources.getString(R.string.title_tv_top_rated)
+            Const.AIRING_TV,
+            Const.POPULAR_TV,
+            Const.ON_THE_AIR_TV,
+            Const.TOP_RATED_TV
         )
     }
 
@@ -72,8 +72,8 @@ class HomeFragment() : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::in
     }
 
     private fun initFilters(): ArrayList<HomeFilter> = ArrayList<HomeFilter>().apply {
-        add(HomeFilter(0, "all",  true))
-        add(HomeFilter(1, "Movies",  false))
-        add(HomeFilter(2, "TV Shows",  false))
+        add(HomeFilter(0, Const.HOME_FILTER_ALL, true))
+        add(HomeFilter(1, Const.HOME_FILTER_MOVIE, false))
+        add(HomeFilter(2, Const.HOME_FILTER_TV, false))
     }
 }

@@ -9,18 +9,12 @@ import com.example.mymoviedb.model.ListGenreLocalModel
 import com.example.mymoviedb.repository.ExploreRepository
 import com.example.mymoviedb.utils.DataResult
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ExploreViewModel @Inject constructor(private val repository: ExploreRepository) :
     BaseViewModel() {
-    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        onError("Exception handled: ${throwable.localizedMessage}")
-    }
-    val errorMessage = MutableLiveData<String>()
 
     private val _movieGenresLiveData = MutableLiveData<DataResult<ListGenreLocalModel>>()
     val movieGenresLiveData: LiveData<DataResult<ListGenreLocalModel>> = _movieGenresLiveData
@@ -28,8 +22,10 @@ class ExploreViewModel @Inject constructor(private val repository: ExploreReposi
     private val _tvGenresLiveData = MutableLiveData<DataResult<ListGenreLocalModel>>()
     val tvGenresLiveData: LiveData<DataResult<ListGenreLocalModel>> = _tvGenresLiveData
 
+    var isMovieSelected = true
+
     fun getMovieGenres() {
-        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+        viewModelScope.launch(exceptionHandler) {
             showProgressBar()
             Log.d("Status genre vm", "movie call")
             val result = repository.getMovieGenres()
@@ -39,17 +35,12 @@ class ExploreViewModel @Inject constructor(private val repository: ExploreReposi
     }
 
     fun getTVGenres() {
-        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
+        viewModelScope.launch(exceptionHandler) {
             showProgressBar()
             Log.d("Status genre vm", "tv call")
             val result = repository.getTVGenres()
             _tvGenresLiveData.postValue(result)
             hideProgressBar()
         }
-    }
-
-    private fun onError(message: String) {
-        errorMessage.value = message
-        loading.value = false
     }
 }
