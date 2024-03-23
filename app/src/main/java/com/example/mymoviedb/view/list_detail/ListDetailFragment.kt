@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.mymoviedb.base.BaseFragment
 import com.example.mymoviedb.databinding.FragmentListDetailBinding
+import com.example.mymoviedb.model.GenreLocalModel
 import com.example.mymoviedb.utils.Const
 import com.example.mymoviedb.utils.DataResult
 import com.example.mymoviedb.utils.Functions.generateTotalPageSize
@@ -25,7 +26,6 @@ class ListDetailFragment :
         viewModel.filmsLiveData.observe(this) {
             when (it.status) {
                 DataResult.Status.SUCCESS -> {
-                    Log.d("Status genre frag", "genre success")
                     it.data?.results?.let { res ->
                         genresAdapter.updateData(res)
                         genresAdapter.notifyDataSetChanged()
@@ -47,14 +47,31 @@ class ListDetailFragment :
     }
 
     override fun requestData() {
-        viewModel.getFilmsByTitle(1)
+        viewModel.getDataListDetail(Const.DEFAULT_RESULT_PAGE)
     }
 
     override fun initUIComponents() {
-        arguments?.getString(Const.LIST_DETAIL_TAG_TITLE)?.let {title ->
-            binding.textTitle.text = context?.let { title.getNameByTitle(it) }
-            viewModel.setTitle(title)
+        context?.let { context ->
+            arguments?.apply {
+                viewModel.title = when {
+                    !getString(Const.LIST_DETAIL_TAG_TITLE).isNullOrEmpty() -> {
+                        viewModel.isFromGenreOrFilmTag = false
+                        getString(Const.LIST_DETAIL_TAG_TITLE)!!.getNameByTitle(context)
+                    }
+                    !getString(Const.GENRE_NAME).isNullOrEmpty() -> {
+                        viewModel.apply {
+                            isFromGenreOrFilmTag = true
+                            isMovieGenreOrTV = getBoolean(Const.IS_MOVIE_GENRE)
+                            genreId = getInt(Const.GENRE_ID)
+                        }
+                        getString(Const.GENRE_NAME)!!
+                    }
+                    else -> ""
+                }
+            }
         }
+        binding.textTitle.text = viewModel.title
+
         genresAdapter = ListDetailAdapter(arrayListOf(), object : OnGenreListItemClickListener {
             override fun onItemClick(id: Int, mediaType: String) {
 
@@ -72,7 +89,8 @@ class ListDetailFragment :
 
         context?.let {
             spinnerAdapter = ArrayAdapter(
-                it, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
+                it,
+                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
                 arrayListOf<Int>()
             )
         }
@@ -87,5 +105,14 @@ class ListDetailFragment :
                 putString(Const.LIST_DETAIL_TAG_TITLE, tagTitle)
             }
         }
+
+        fun newInstance(isMovieGenre: Boolean, genre: GenreLocalModel) =
+            ListDetailFragment().apply {
+                arguments = Bundle().apply {
+                    putBoolean(Const.IS_MOVIE_GENRE, isMovieGenre)
+                    putInt(Const.GENRE_ID, genre.id)
+                    putString(Const.GENRE_NAME, genre.name)
+                }
+            }
     }
 }
