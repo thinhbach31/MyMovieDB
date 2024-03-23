@@ -14,7 +14,7 @@ import com.example.mymoviedb.utils.DataResult
 import com.example.mymoviedb.utils.Functions.orEmpty
 import com.example.mymoviedb.view.home.HomeFilterAdapter
 import com.example.mymoviedb.view.home.HomeFilterClickListener
-import com.example.mymoviedb.view.list_genre_detail.GenreListDetailFragment
+import com.example.mymoviedb.view.list_detail.ListDetailFragment
 import com.example.mymoviedb.view.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -77,7 +77,7 @@ class ExploreFragment() : BaseFragment<FragmentExploreBinding>(FragmentExploreBi
             override fun onItemGenreClick(genre: GenreLocalModel) {
                 (activity as MainActivity).addFragment(
                     R.id.container_main_fragment,
-                    GenreListDetailFragment.newInstance(viewModel.isMovieSelected, genre)
+                    ListDetailFragment.newInstance(viewModel.isMovieSelected, genre)
                 )
             }
         })
